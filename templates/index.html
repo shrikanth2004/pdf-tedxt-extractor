@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallel PDF Extractor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Parallel PDF Extractor</h1>
+        <p class="form-description">
+            Click to select files or drag and drop them into the box below.
+        </p>
+
+        <form action="/process" method="post" enctype="multipart/form-data">
+
+            <input type="file" id="pdf-files" name="files" accept=".pdf" multiple style="display: none;">
+
+            <div id="drop-zone" class="file-drop-zone">
+                <p style="pointer-events: none;">Drag & Drop PDF files here</p>
+                <p style="pointer-events: none;">or</p>
+                <p style="pointer-events: none;"><strong>Click to select files</strong></p>
+            </div>
+
+            <div id="file-list"></div>
+
+            <button type="submit">Extract Text</button>
+        </form>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const fileInput = document.getElementById('pdf-files');
+        const fileList = document.getElementById('file-list');
+
+        dropZone.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', () => {
+            updateFileList(fileInput.files);
+        });
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+            document.body.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.add('dragover'), false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, () => dropZone.classList.remove('dragover'), false);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            const droppedFiles = e.dataTransfer.files;
+
+            fileInput.files = droppedFiles;
+
+            updateFileList(droppedFiles);
+        }, false);
+
+
+        function updateFileList(files) {
+            fileList.innerHTML = ''; 
+            if (files && files.length > 0) {
+                const list = document.createElement('p');
+                if (files.length === 1) {
+                    list.textContent = `Selected file: ${files[0].name}`;
+                } else {
+                    list.textContent = `${files.length} files selected.`;
+                }
+                fileList.appendChild(list);
+            }
+        }
+    </script>
+</body>
+</html>

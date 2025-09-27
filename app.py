@@ -3,23 +3,33 @@ import time
 import concurrent.futures
 from extractor import extract_text_from_bytes
 
+# --- Page Configuration ---
 st.set_page_config(
     page_title="Parallel PDF Extractor",
     page_icon="🚀",
     layout="centered"
 )
 
-st.title("🚀 Parallel PDF Text Extractor")
+# --- Function to load and inject CSS ---
+def load_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-st.markdown("""
-This app uses parallel processing to extract text from multiple PDF files quickly. 
-Upload your files below to get started.
-""")
+# Call the function to load the CSS
+load_css("style.css")
 
+
+# --- Main App UI ---
+st.title("Parallel PDF Extractor")
+st.markdown('<p class="form-description">Click to select files or drag and drop them into the box below.</p>', unsafe_allow_html=True)
+
+
+# Use Streamlit's file uploader
 uploaded_files = st.file_uploader(
     "Drag and drop your PDF files here",
     type="pdf",
-    accept_multiple_files=True
+    accept_multiple_files=True,
+    label_visibility="collapsed" # Hides the default label
 )
 
 if uploaded_files:
@@ -33,7 +43,6 @@ if uploaded_files:
         start_time = time.time()
         
         with st.spinner("Extracting text... this may take a moment."):
-            
             with concurrent.futures.ProcessPoolExecutor() as executor:
                 results = list(executor.map(extract_text_from_bytes, pdf_data))
 
@@ -48,7 +57,7 @@ if uploaded_files:
             if result["text"]:
                 st.subheader(f"📄 {result['filename']}")
                 with st.expander("View Extracted Text"):
-                    st.text_area("Text", result["text"], height=300, key=f"text_area_{result['filename']}")
+                    st.text_area("Text", result["text"], height=300, key=f"text_{result['filename']}")
             else:
                 st.subheader(f"❌ {result['filename']}")
                 st.error(f"Could not process file. Error: {result['error']}")

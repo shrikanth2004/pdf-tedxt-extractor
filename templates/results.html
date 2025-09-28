@@ -1,50 +1,18 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Extraction Results</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container">
-        <h1>Extraction Results</h1>
-        <p class="results-summary">
-            Processed <strong>2</strong> files in <strong>5.78</strong> seconds.
-        </p>
-        <a href="index.html" class="back-link">&larr; Back to Home</a>
-        
-        <div class="result success">
-            <h2>sample-document.pdf</h2>
-            <p><strong>Status:</strong> Success</p>
-            <pre>This is the fully extracted text from the PDF document. It would appear here in its entirety. All paragraphs, sentences, and words from the first page to the last would be rendered inside this box. This is just sample text to demonstrate how a successful extraction would look on the results page.</pre>
-        </div>
-
-        <div class="result error">
-            <h2>corrupted-file.pdf</h2>
-            <p><strong>Status:</strong> Failed</p>
-            <p><strong>Error:</strong> Error processing PDF: Mismatching stream lengths.</p>
-        </div>
-
-    </div>
-</body>
-</html> -->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Extraction Results</title>
-   
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
         <h1>Extraction Results</h1>
-        <p>Processed {{ results|length }} files in {{ duration }} seconds.</p>
-        <a href="/">&larr; Back to Home</a>
+        <p class="results-summary">
+            Processed <strong>{{ results|length }}</strong> files in <strong>{{ duration }}</strong> seconds.
+        </p>
+        <a href="/" class="back-link">&larr; Back to Home</a>
         
         {% for result in results %}
             <div class="result {{ 'success' if result.text else 'error' }}">

@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+:root {
+    --background-dark: #0a0a0a;
+    --text-green: #39ff14;
+    --text-light: #e0e0e0;
+    --container-bg: rgba(10, 10, 10, 0.8);
+    --border-color: rgba(57, 255, 20, 0.5);
+    --glow-color: rgba(57, 255, 20, 0.3);
+    --success-green: #28a745;
+    --error-red: #dc3545;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+body {
+    font-family: 'Fira Code', Consolas, 'Courier New', monospace;
+    margin: 0;
+    padding: 2em;
+    background-color: var(--background-dark);
+    color: var(--text-light);
+    background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 1px 2px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    width: 100%;
+    margin: 2em auto;
+    background: var(--container-bg);
+    padding: 2.5em;
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    box-shadow: 0 0 20px var(--glow-color);
+    backdrop-filter: blur(2px);
+}
+
+h1 {
+    text-align: center;
+    color: var(--text-green);
+    margin-bottom: 0.5em;
+    font-weight: 600;
+    text-shadow: 0 0 5px var(--text-green);
+}
+
+h1::after {
+    content: '_';
+    animation: blink 1s step-end infinite;
+}
+
+h2 {
+    color: var(--text-green);
+    margin-top: 0;
+    font-size: 1.4em;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+
+.form-description {
+    text-align: center;
+    color: #a0a0a0;
+    margin-bottom: 2.5em;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: transparent;
+    color: var(--text-green);
+    border: 1px solid var(--text-green);
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+button:hover {
+    background-color: var(--text-green);
+    color: var(--background-dark);
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 2em;
+    color: var(--text-green);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.result {
+    border: 1px solid var(--border-color);
+    padding: 1.5em;
+    margin-bottom: 1.5em;
+    border-radius: 0;
+    background-color: transparent;
+    border-left-width: 4px;
+}
+
+.result.success {
+    border-left-color: var(--success-green);
+}
+
+.result.error {
+    border-left-color: var(--error-red);
+}
+
+pre {
+    background-color: #000;
+    padding: 1em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    color: #c0c0c0;
+}
+
+.file-drop-zone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed var(--border-color);
+    padding: 3em 2em;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 1.5em;
+    background-color: transparent;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+    color: var(--text-green);
+}
+
+.file-drop-zone.dragover {
+    background-color: rgba(57, 255, 20, 0.1);
+    border-color: var(--text-green);
+    border-style: solid;
+}
+
+#file-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1em;
+    text-align: center;
+    color: #a0a0c0;
+    min-height: 1.5em;
+}

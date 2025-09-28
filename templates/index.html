@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parallel PDF Extractor</title>
-  
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <div class="container">
@@ -14,17 +14,13 @@
         </p>
 
         <form action="/process" method="post" enctype="multipart/form-data">
-
             <input type="file" id="pdf-files" name="files" accept=".pdf" multiple style="display: none;">
-
             <div id="drop-zone" class="file-drop-zone">
                 <p style="pointer-events: none;">Drag & Drop PDF files here</p>
                 <p style="pointer-events: none;">or</p>
                 <p style="pointer-events: none;"><strong>Click to select files</strong></p>
             </div>
-
             <div id="file-list"></div>
-
             <button type="submit">Extract Text</button>
         </form>
     </div>
@@ -34,13 +30,8 @@
         const fileInput = document.getElementById('pdf-files');
         const fileList = document.getElementById('file-list');
 
-        dropZone.addEventListener('click', () => {
-            fileInput.click();
-        });
-
-        fileInput.addEventListener('change', () => {
-            updateFileList(fileInput.files);
-        });
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', () => updateFileList(fileInput.files));
 
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             dropZone.addEventListener(eventName, preventDefaults, false);
@@ -62,15 +53,12 @@
 
         dropZone.addEventListener('drop', (e) => {
             const droppedFiles = e.dataTransfer.files;
-
             fileInput.files = droppedFiles;
-
             updateFileList(droppedFiles);
         }, false);
 
-
         function updateFileList(files) {
-            fileList.innerHTML = ''; 
+            fileList.innerHTML = '';
             if (files && files.length > 0) {
                 const list = document.createElement('p');
                 if (files.length === 1) {
